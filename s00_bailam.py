@@ -51,6 +51,35 @@ greeting('2100')             | Good evening!          | 14
 #region bailam
 
 def greeting(hour_str):
-  # hint convert to 24h-format -> do greet
-  pass#TODO
+  hour_str = hour_str.strip().lower()
+  hour = 0
+  # Kiểm tra nếu chuỗi chứa "am" hoặc "pm"
+  if 'am' in hour_str or 'pm' in hour_str:
+      tam = 'pm' in hour_str  # Xác định giờ là PM hay không
+      hour_str = hour_str.replace('am', '').replace('pm', '').strip()  # Loại bỏ "am" và "pm"
+      # Tách giờ nếu có dấu ":"
+      if ':' in hour_str:
+          hour = int(hour_str.split(':')[0])
+      elif '' in hour_str:
+          hour = int(hour_str[:2])
+      else:
+          hour = int(hour_str)  # Nếu không có phút
+      # Chuyển đổi giờ PM
+      if tam and hour != 12:
+          hour += 12
+      # Chuyển đổi giờ AM đặc biệt (12 AM = 0)
+      elif not tam and hour == 12:
+          hour = 0
+  elif hour_str.isdigit() and len(hour_str) > 3:
+      # Định dạng 4 chữ số, ví dụ: "0309" -> lấy 2 chữ số đầu
+      hour = int(hour_str[:2])
+  elif ':' in hour_str:
+      # Định dạng "hh:mm", lấy phần giờ trước dấu ":"
+      hour = int(hour_str.split(':')[0])
+  if 0 <= hour < 12:
+          return "Good morning!"
+  elif 12 <= hour < 18:
+          return "Good afternoon!"
+  else:
+          return "Good evening!"
 #endregion bailam
